@@ -2,8 +2,15 @@
 
 > 作者：lizlong
 
-- ![image-20240820105919830](C:\Users\酷酷的龙\AppData\Roaming\Typora\typora-user-images\image-20240820105919830.png)
-- ![image-20240820105934492](C:\Users\酷酷的龙\AppData\Roaming\Typora\typora-user-images\image-20240820105934492.png)
-- ![image-20240820105951176](C:\Users\酷酷的龙\AppData\Roaming\Typora\typora-user-images\image-20240820105951176.png)
+## 业务流程图
+<img width="415" alt="image" src="https://github.com/user-attachments/assets/79bee324-2df9-4125-91f5-c309c3a3891f">
+
+## 时序图
+<img width="416" alt="image" src="https://github.com/user-attachments/assets/be3d1d22-2ec6-41b8-aded-b71c6420d8a5">
+
+## 架构图
+![Uploading image.png…]()
+
+
 
 
