@@ -3,7 +3,9 @@ package com.zulong.aidada.utils;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.aidadaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+
+
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -17,7 +19,7 @@ import java.util.Map;
  * @author <a href="https://github.com/lizulong">程序员鱼皮</a>
  * @from <a href="https://zulong.icu">编程导航知识星球</a>
  */
-@aidadaTest
+@SpringBootTest
 public class EasyExcelTest {
 
     @Test

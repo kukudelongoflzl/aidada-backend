@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.aidadaTest;
+import org.springframework.boot.test.context.SpringbootTest;
 
 /**
  * 帖子数据库操作测试
@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.aidadaTest;
  * @author <a href="https://github.com/lizulong">程序员鱼皮</a>
  * @from <a href="https://zulong.icu">编程导航知识星球</a>
  */
-@aidadaTest
+@SpringbootTest
 class PostMapperTest {
 
     @Resource
