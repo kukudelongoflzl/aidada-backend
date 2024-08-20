@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
  * 应用接口
  *
  * @author <a href="https://github.com/kukudelong">黎祖龙</a>
- * @from <a href="https://www.code-nav.cn">编程导航学习圈</a>
+ *  
  */
 @RestController
 @RequestMapping("/app")
@@ -54,7 +54,6 @@ public class AppController {
     @PostMapping("/add")
     public BaseResponse<Long> addApp(@RequestBody AppAddRequest appAddRequest, HttpServletRequest request) {
         ThrowUtils.throwIf(appAddRequest == null, ErrorCode.PARAMS_ERROR);
-        // todo 在此处将实体类和 DTO 进行转换
         App app = new App();
         BeanUtils.copyProperties(appAddRequest, app);
         // 数据校验

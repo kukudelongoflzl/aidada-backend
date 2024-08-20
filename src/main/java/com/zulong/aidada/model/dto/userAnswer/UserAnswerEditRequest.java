@@ -9,7 +9,7 @@ import java.util.List;
  * 编辑用户答案请求
  *
  * @author <a href="https://github.com/kukudelong">黎祖龙</a>
- * @from <a href="https://www.code-nav.cn">编程导航学习圈</a>
+ *  
  */
 @Data
 public class UserAnswerEditRequest implements Serializable {
@@ -20,19 +20,16 @@ public class UserAnswerEditRequest implements Serializable {
     private Long id;
 
     /**
-     * 标题
+     * 应用ID
      */
-    private String title;
+    private Long appId;
+
 
     /**
-     * 内容
+     * 用户答案（JSON）
      */
-    private String content;
+    private List<String> choices;
 
-    /**
-     * 标签列表
-     */
-    private List<String> tags;
 
     private static final long serialVersionUID = 1L;
 }

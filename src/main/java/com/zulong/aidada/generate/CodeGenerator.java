@@ -16,7 +16,7 @@ import java.io.Writer;
  * 代码生成器
  *
  * @author <a href="https://github.com/kukudelong">黎祖龙</a>
- * @from <a href="https://www.code-nav.cn">编程导航学习圈</a>
+ *  
  */
 public class CodeGenerator {
 

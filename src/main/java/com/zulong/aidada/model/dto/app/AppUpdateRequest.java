@@ -3,13 +3,13 @@ package com.zulong.aidada.model.dto.app;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 
 /**
  * 更新应用请求
  *
  * @author <a href="https://github.com/kukudelong">黎祖龙</a>
- * @from <a href="https://www.code-nav.cn">编程导航学习圈</a>
+ *  
  */
 @Data
 public class AppUpdateRequest implements Serializable {
@@ -20,19 +20,49 @@ public class AppUpdateRequest implements Serializable {
     private Long id;
 
     /**
-     * 标题
+     * 应用名
      */
-    private String title;
+    private String appName;
 
     /**
-     * 内容
+     * 应用描述
      */
-    private String content;
+    private String appDesc;
 
     /**
-     * 标签列表
+     * 应用图标
      */
-    private List<String> tags;
+    private String appIcon;
+
+    /**
+     * 应用类型（0-得分类 1测评类）
+     */
+    private Integer appType;
+
+    /**
+     * 评分策略（0-自定义 AI）
+     */
+    private Integer scoringStrategy;
+
+    /**
+     * 审核状态0-待审核 1-审核通过 2-审核不通过
+     */
+    private Integer reviewStatus;
+
+    /**
+     * 审核信息
+     */
+    private String reviewMessage;
+
+    /**
+     * 审核者ID
+     */
+    private Long reviewerId;
+
+    /**
+     * 审核时间
+     */
+    private Date reviewTime;
 
     private static final long serialVersionUID = 1L;
 }

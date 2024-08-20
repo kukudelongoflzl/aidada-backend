@@ -5,13 +5,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 查询题目请求
  *
  * @author <a href="https://github.com/kukudelong">黎祖龙</a>
- * @from <a href="https://www.code-nav.cn">编程导航学习圈</a>
+ *  
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -23,34 +22,23 @@ public class QuestionQueryRequest extends PageRequest implements Serializable {
     private Long id;
 
     /**
-     * id
+     * 题目内容
      */
-    private Long notId;
+    private String questionContent;
 
     /**
-     * 搜索词
+     * 应用ID
      */
-    private String searchText;
-
-    /**
-     * 标题
-     */
-    private String title;
-
-    /**
-     * 内容
-     */
-    private String content;
-
-    /**
-     * 标签列表
-     */
-    private List<String> tags;
+    private Long appId;
 
     /**
      * 创建用户 id
      */
     private Long userId;
 
+    /**
+     * id
+     */
+    private int notId;
     private static final long serialVersionUID = 1L;
 }

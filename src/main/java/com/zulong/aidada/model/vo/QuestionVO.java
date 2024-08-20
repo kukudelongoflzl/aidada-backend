@@ -1,10 +1,11 @@
 package com.zulong.aidada.model.vo;
 
+
 import cn.hutool.json.JSONUtil;
+import com.zulong.aidada.model.dto.question.QuestionContentDTO;
 import com.zulong.aidada.model.entity.Question;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  * 题目视图
  *
  * @author <a href="https://github.com/kukudelong">黎祖龙</a>
- * @from <a href="https://www.code-nav.cn">编程导航学习圈</a>
+ *  
  */
 @Data
 public class QuestionVO implements Serializable {
@@ -24,19 +25,14 @@ public class QuestionVO implements Serializable {
     private Long id;
 
     /**
-     * 标题
+     * 题目内容
      */
-    private String title;
+    private List<QuestionContentDTO> questionContent;
 
     /**
-     * 内容
+     * 应用ID
      */
-    private String content;
-
-    /**
-     * 创建用户 id
-     */
-    private Long userId;
+    private Long appId;
 
     /**
      * 创建时间
@@ -48,10 +44,8 @@ public class QuestionVO implements Serializable {
      */
     private Date updateTime;
 
-    /**
-     * 标签列表
-     */
-    private List<String> tagList;
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 创建用户信息
@@ -70,8 +64,8 @@ public class QuestionVO implements Serializable {
         }
         Question question = new Question();
         BeanUtils.copyProperties(questionVO, question);
-        List<String> tagList = questionVO.getTagList();
-        question.setTags(JSONUtil.toJsonStr(tagList));
+        List<QuestionContentDTO> questionContent = questionVO.getQuestionContent();
+        question.setQuestionContent(JSONUtil.toJsonStr(questionContent));
         return question;
     }
 
@@ -87,7 +81,10 @@ public class QuestionVO implements Serializable {
         }
         QuestionVO questionVO = new QuestionVO();
         BeanUtils.copyProperties(question, questionVO);
-        questionVO.setTagList(JSONUtil.toList(question.getTags(), String.class));
+        String questionContent = question.getQuestionContent();
+        if (questionContent!=null){
+            questionVO.setQuestionContent(JSONUtil.toList(questionContent, QuestionContentDTO.class));
+        }
         return questionVO;
     }
 }

@@ -39,7 +39,7 @@ public enum AppScoringStrategyEnum {
      * @param value
      * @return
      */
-    public static AppScoringStrategyEnum getEnumByValue(String value) {
+    public static AppScoringStrategyEnum getEnumByValue(Integer value) {
         if (ObjectUtils.isEmpty(value)) {
             return null;
         }

@@ -13,7 +13,6 @@ import java.util.List;
  * 评分结果视图
  *
  * @author <a href="https://github.com/kukudelong">黎祖龙</a>
- * @from <a href="https://www.code-nav.cn">编程导航学习圈</a>
  */
 @Data
 public class ScoringResultVO implements Serializable {
@@ -24,19 +23,35 @@ public class ScoringResultVO implements Serializable {
     private Long id;
 
     /**
-     * 标题
+     * 结果名称，如物流师
      */
-    private String title;
+    private String resultName;
 
     /**
-     * 内容
+     * 结果描述
      */
-    private String content;
+    private String resultDesc;
 
     /**
-     * 创建用户 id
+     * 结果图片
      */
-    private Long userId;
+    private String resultPicture;
+
+    /**
+     * 结果属性集合 JSON,如[I,S,T,J]
+     */
+    private List<String> resultProp;
+
+    /**
+     * 结果得分范围，如80，表示80以及以上的分数命中此结果
+     */
+    private Integer resultScoreRange;
+
+    /**
+     * 应用ID
+     */
+    private Long appId;
+
 
     /**
      * 创建时间
@@ -48,10 +63,6 @@ public class ScoringResultVO implements Serializable {
      */
     private Date updateTime;
 
-    /**
-     * 标签列表
-     */
-    private List<String> tagList;
 
     /**
      * 创建用户信息
@@ -70,8 +81,8 @@ public class ScoringResultVO implements Serializable {
         }
         ScoringResult scoringResult = new ScoringResult();
         BeanUtils.copyProperties(scoringResultVO, scoringResult);
-        List<String> tagList = scoringResultVO.getTagList();
-        scoringResult.setTags(JSONUtil.toJsonStr(tagList));
+        List<String> resultProp = scoringResultVO.getResultProp();
+        scoringResult.setResultProp(JSONUtil.toJsonStr(resultProp));
         return scoringResult;
     }
 
@@ -87,7 +98,7 @@ public class ScoringResultVO implements Serializable {
         }
         ScoringResultVO scoringResultVO = new ScoringResultVO();
         BeanUtils.copyProperties(scoringResult, scoringResultVO);
-        scoringResultVO.setTagList(JSONUtil.toList(scoringResult.getTags(), String.class));
+        scoringResultVO.setResultProp(JSONUtil.toList(scoringResult.getResultProp(), String.class));
         return scoringResultVO;
     }
 }

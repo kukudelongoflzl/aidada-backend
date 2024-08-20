@@ -11,7 +11,7 @@ import java.util.List;
  * 查询用户答案请求
  *
  * @author <a href="https://github.com/kukudelong">黎祖龙</a>
- * @from <a href="https://www.code-nav.cn">编程导航学习圈</a>
+ *  
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -23,6 +23,57 @@ public class UserAnswerQueryRequest extends PageRequest implements Serializable 
     private Long id;
 
     /**
+     * 应用ID
+     */
+    private Long appId;
+
+    /**
+     * 应用类型（0-得分类 1测评类）
+     */
+    private Integer appType;
+
+    /**
+     * 评分策略（0-自定义 AI）
+     */
+    private Integer scoringStrategy;
+
+    /**
+     * 用户答案（JSON）
+     */
+    private List<String> choices;
+
+    /**
+     * 评分结果ID
+     */
+    private Long resultId;
+
+    /**
+     * 结果名称，如物流师
+     */
+    private String resultName;
+
+    /**
+     * 结果描述
+     */
+    private String resultDesc;
+
+    /**
+     * 结果图片
+     */
+    private String resultPicture;
+
+
+    /**
+     * 结果得分范围，如80，表示80以及以上的分数命中此结果
+     */
+    private Integer resultScore;
+
+    /**
+     * 创建用户 id
+     */
+    private Long userId;
+
+    /**
      * id
      */
     private Long notId;
@@ -31,26 +82,5 @@ public class UserAnswerQueryRequest extends PageRequest implements Serializable 
      * 搜索词
      */
     private String searchText;
-
-    /**
-     * 标题
-     */
-    private String title;
-
-    /**
-     * 内容
-     */
-    private String content;
-
-    /**
-     * 标签列表
-     */
-    private List<String> tags;
-
-    /**
-     * 创建用户 id
-     */
-    private Long userId;
-
     private static final long serialVersionUID = 1L;
 }

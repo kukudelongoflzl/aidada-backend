@@ -40,7 +40,7 @@ public enum ReviewStatusEnum {
      * @param value
      * @return
      */
-    public static ReviewStatusEnum getEnumByValue(String value) {
+    public static ReviewStatusEnum getEnumByValue(Integer value) {
         if (ObjectUtils.isEmpty(value)) {
             return null;
         }
