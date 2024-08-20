@@ -7,8 +7,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * 全局跨域配置
  *
- * @author <a href="https://github.com/lizulong">程序员鱼皮</a>
- * @from <a href="https://zulong.icu">编程导航知识星球</a>
+ * @author <a href="https://github.com/kukudelong">黎祖龙</a>
+ *  
  */
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
