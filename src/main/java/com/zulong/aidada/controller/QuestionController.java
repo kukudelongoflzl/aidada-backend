@@ -1,5 +1,7 @@
 package com.zulong.aidada.controller;
 
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zulong.aidada.annotation.AuthCheck;
 import com.zulong.aidada.common.BaseResponse;
@@ -57,6 +59,7 @@ public class QuestionController {
         // todo 在此处将实体类和 DTO 进行转换
         Question question = new Question();
         BeanUtils.copyProperties(questionAddRequest, question);
+        question.setQuestionContent(JSONUtil.toJsonStr(questionAddRequest.getQuestionContent()));
         // 数据校验
         questionService.validQuestion(question, true);
         // todo 填充默认值
@@ -109,9 +112,10 @@ public class QuestionController {
         if (questionUpdateRequest == null || questionUpdateRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        // todo 在此处将实体类和 DTO 进行转换
+        //  在此处将实体类和 DTO 进行转换
         Question question = new Question();
         BeanUtils.copyProperties(questionUpdateRequest, question);
+        question.setQuestionContent(JSONUtil.toJsonStr(questionUpdateRequest.getQuestionContent()));
         // 数据校验
         questionService.validQuestion(question, false);
         // 判断是否存在
@@ -215,9 +219,10 @@ public class QuestionController {
         if (questionEditRequest == null || questionEditRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        // todo 在此处将实体类和 DTO 进行转换
+        // 在此处将实体类和 DTO 进行转换
         Question question = new Question();
         BeanUtils.copyProperties(questionEditRequest, question);
+        question.setQuestionContent(JSONUtil.toJsonStr(questionEditRequest.getQuestionContent()));
         // 数据校验
         questionService.validQuestion(question, false);
         User loginUser = userService.getLoginUser(request);

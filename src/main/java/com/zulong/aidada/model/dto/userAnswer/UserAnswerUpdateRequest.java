@@ -24,15 +24,11 @@ public class UserAnswerUpdateRequest implements Serializable {
      */
     private String title;
 
-    /**
-     * 内容
-     */
-    private String content;
 
     /**
-     * 标签列表
+     * 选项
      */
-    private List<String> tags;
+    private List<String> choices;
 
     private static final long serialVersionUID = 1L;
 }

@@ -91,7 +91,7 @@ public class UserAnswerServiceImpl extends ServiceImpl<UserAnswerMapper, UserAns
         Integer resultScore = userAnswerQueryRequest.getResultScore();
         Long userId = userAnswerQueryRequest.getUserId();
         String searchText = userAnswerQueryRequest.getSearchText();
-        Long notId = userAnswerQueryRequest.getNotId();
+        userAnswerQueryRequest.getNotId();
         String sortField = userAnswerQueryRequest.getSortField();
         String sortOrder = userAnswerQueryRequest.getSortOrder();
 
@@ -113,7 +113,6 @@ public class UserAnswerServiceImpl extends ServiceImpl<UserAnswerMapper, UserAns
             }
         }
         // 精确查询
-        queryWrapper.ne(ObjectUtils.isNotEmpty(notId), "id", notId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
         queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(resultId), "resultId", resultId);

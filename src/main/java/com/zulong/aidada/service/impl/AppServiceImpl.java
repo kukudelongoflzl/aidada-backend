@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
  * 应用服务实现
  *
  * @author <a href="https://github.com/kukudelong">黎祖龙</a>
- *  
  */
 @Service
 @Slf4j
@@ -46,12 +45,11 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
      * 校验数据
      *
      * @param app
-     * @param add      对创建的数据进行校验
+     * @param add 对创建的数据进行校验
      */
     @Override
     public void validApp(App app, boolean add) {
         ThrowUtils.throwIf(app == null, ErrorCode.PARAMS_ERROR);
-        // todo 从对象中取值
         String appName = app.getAppName();
         String appDesc = app.getAppDesc();
         Integer appType = app.getAppType();
@@ -61,22 +59,22 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         // 创建数据时，参数不能为空
         if (add) {
             // todo 补充校验规则
-            ThrowUtils.throwIf(StringUtils.isBlank(appName), ErrorCode.PARAMS_ERROR,"应用名称不能为空");
-            ThrowUtils.throwIf(StringUtils.isBlank(appDesc), ErrorCode.PARAMS_ERROR,"应用描述不能为空");
+            ThrowUtils.throwIf(StringUtils.isBlank(appName), ErrorCode.PARAMS_ERROR, "应用名称不能为空");
+            ThrowUtils.throwIf(StringUtils.isBlank(appDesc), ErrorCode.PARAMS_ERROR, "应用描述不能为空");
+            AppScoringStrategyEnum enumByValue = AppScoringStrategyEnum.getEnumByValue(scoringStrategy);
+            ThrowUtils.throwIf(enumByValue == null, ErrorCode.PARAMS_ERROR, "应用评分策略非法");
             AppTypeEnum appTypeEnum = AppTypeEnum.getEnumByValue(appType);
-            ThrowUtils.throwIf(appTypeEnum==null,ErrorCode.PARAMS_ERROR,"应用类别非法");
-            AppScoringStrategyEnum appScoringStrategyEnum = AppScoringStrategyEnum.getEnumByValue(scoringStrategy);
-            ThrowUtils.throwIf(appScoringStrategyEnum==null,ErrorCode.PARAMS_ERROR,"应用评分策略非法");
+            ThrowUtils.throwIf(appTypeEnum == null, ErrorCode.PARAMS_ERROR, "应用类别非法");
         }
         // 修改数据时，有参数则校验
-        // todo 补充校验规则
         if (StringUtils.isNotBlank(appName)) {
             ThrowUtils.throwIf(appName.length() > 80, ErrorCode.PARAMS_ERROR, "应用名称要小于 80");
         }
-        if (reviewStatus!=null) {
+        if (reviewStatus != null) {
             ReviewStatusEnum reviewStatusEnum = ReviewStatusEnum.getEnumByValue(reviewStatus);
-            ThrowUtils.throwIf(reviewStatusEnum==null,ErrorCode.PARAMS_ERROR,"审核状态非法");
+            ThrowUtils.throwIf(reviewStatusEnum == null, ErrorCode.PARAMS_ERROR, "审核状态非法");
         }
+
     }
 
     /**
@@ -91,7 +89,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         if (appQueryRequest == null) {
             return queryWrapper;
         }
-        // todo 从对象中取值
+
         Long id = appQueryRequest.getId();
         String appName = appQueryRequest.getAppName();
         String appDesc = appQueryRequest.getAppDesc();
@@ -107,8 +105,6 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         String sortField = appQueryRequest.getSortField();
         String sortOrder = appQueryRequest.getSortOrder();
 
-
-        // todo 补充需要的查询条件
         // 从多字段中搜索
         if (StringUtils.isNotBlank(searchText)) {
             // 需要拼接查询条件
@@ -124,11 +120,10 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppSe
         queryWrapper.ne(ObjectUtils.isNotEmpty(notId), "id", notId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
         queryWrapper.eq(ObjectUtils.isNotEmpty(appType), "appType", appType);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(scoringStrategy),"scoringStrategy",scoringStrategy);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(reviewStatus),"reviewStatus",reviewStatus);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(reviewerId),"reviewerId",reviewerId);
-        queryWrapper.eq(ObjectUtils.isNotEmpty(userId),"userId",userId);
-
+        queryWrapper.eq(ObjectUtils.isNotEmpty(scoringStrategy), "scoringStrategy", scoringStrategy);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(reviewStatus), "reviewStatus", reviewStatus);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(reviewerId), "reviewerId", reviewerId);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
 
         // 排序规则
         queryWrapper.orderBy(SqlUtils.validSortField(sortField),

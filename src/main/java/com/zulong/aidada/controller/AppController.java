@@ -1,11 +1,9 @@
 package com.zulong.aidada.controller;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zulong.aidada.annotation.AuthCheck;
-import com.zulong.aidada.common.BaseResponse;
-import com.zulong.aidada.common.DeleteRequest;
-import com.zulong.aidada.common.ErrorCode;
-import com.zulong.aidada.common.ResultUtils;
+import com.zulong.aidada.common.*;
 import com.zulong.aidada.constant.UserConstant;
 import com.zulong.aidada.exception.BusinessException;
 import com.zulong.aidada.exception.ThrowUtils;
@@ -15,21 +13,25 @@ import com.zulong.aidada.model.dto.app.AppQueryRequest;
 import com.zulong.aidada.model.dto.app.AppUpdateRequest;
 import com.zulong.aidada.model.entity.App;
 import com.zulong.aidada.model.entity.User;
+import com.zulong.aidada.model.enums.ReviewStatusEnum;
+import com.zulong.aidada.model.enums.UserRoleEnum;
 import com.zulong.aidada.model.vo.AppVO;
 import com.zulong.aidada.service.AppService;
 import com.zulong.aidada.service.UserService;
+import io.netty.channel.nio.AbstractNioChannel;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.stream.BaseStream;
 
 /**
  * 应用接口
  *
  * @author <a href="https://github.com/kukudelong">黎祖龙</a>
- *  
  */
 @RestController
 @RequestMapping("/app")
@@ -56,9 +58,10 @@ public class AppController {
         ThrowUtils.throwIf(appAddRequest == null, ErrorCode.PARAMS_ERROR);
         App app = new App();
         BeanUtils.copyProperties(appAddRequest, app);
+
         // 数据校验
         appService.validApp(app, true);
-        // todo 填充默认值
+        // 填充默认值
         User loginUser = userService.getLoginUser(request);
         app.setUserId(loginUser.getId());
         // 写入数据库
@@ -108,7 +111,7 @@ public class AppController {
         if (appUpdateRequest == null || appUpdateRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        // todo 在此处将实体类和 DTO 进行转换
+        // 在此处将实体类和 DTO 进行转换
         App app = new App();
         BeanUtils.copyProperties(appUpdateRequest, app);
         // 数据校验
@@ -165,7 +168,7 @@ public class AppController {
      */
     @PostMapping("/list/page/vo")
     public BaseResponse<Page<AppVO>> listAppVOByPage(@RequestBody AppQueryRequest appQueryRequest,
-                                                               HttpServletRequest request) {
+                                                     HttpServletRequest request) {
         long current = appQueryRequest.getCurrent();
         long size = appQueryRequest.getPageSize();
         // 限制爬虫
@@ -186,7 +189,7 @@ public class AppController {
      */
     @PostMapping("/my/list/page/vo")
     public BaseResponse<Page<AppVO>> listMyAppVOByPage(@RequestBody AppQueryRequest appQueryRequest,
-                                                                 HttpServletRequest request) {
+                                                       HttpServletRequest request) {
         ThrowUtils.throwIf(appQueryRequest == null, ErrorCode.PARAMS_ERROR);
         // 补充查询条件，只查询当前登录用户的数据
         User loginUser = userService.getLoginUser(request);
@@ -235,4 +238,45 @@ public class AppController {
     }
 
     // endregion
+
+
+    /**
+     * 审核应用
+     *
+     * @param reviewRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/review")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)//权限校验 管理员才有资格审核
+    public BaseResponse<Boolean> doAppReview(@RequestBody ReviewRequest reviewRequest, HttpServletRequest request) {
+        //1 判断输入参数是否存在
+        if (reviewRequest == null || reviewRequest.getAppId() <= 0)
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        //2 取值
+        Long appId = reviewRequest.getAppId();
+        Integer reviewStatus = reviewRequest.getReviewStatus();
+        String reviewMessage = reviewRequest.getReviewMessage();
+        Long reviewerId = userService.getLoginUser(request).getId();
+        //3 校验应用id和审核状态是否存在 审核状态是否正确 判断输入appId是否存在 判断已有状态和新输入状态是否一致
+        if (appId == null || reviewStatus == null)
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        ReviewStatusEnum reviewStatusEnum = ReviewStatusEnum.getEnumByValue(reviewStatus);
+        ThrowUtils.throwIf(reviewStatusEnum == null, ErrorCode.PARAMS_ERROR, "审核状态不正确");
+        App app = appService.getById(appId);
+        ThrowUtils.throwIf(app == null, ErrorCode.PARAMS_ERROR, "应用不存在");
+        if (app.getReviewStatus().equals(reviewStatus)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "输入状态与现在一致");
+        }
+        //4 封装审核信息
+        app.setReviewStatus(reviewStatus);//设置新状态
+        app.setReviewMessage(reviewMessage);//设置审核信息
+        app.setReviewerId(reviewerId);//设置审核人信息
+        app.setReviewTime(DateTime.now());//设置审核时间
+
+        //5 写入数据库
+        boolean result = appService.updateById(app);
+        ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
+        return ResultUtils.success(true);
+    }
 }
