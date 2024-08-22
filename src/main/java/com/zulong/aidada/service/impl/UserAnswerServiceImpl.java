@@ -63,6 +63,7 @@ public class UserAnswerServiceImpl extends ServiceImpl<UserAnswerMapper, UserAns
         if (appId != null) {
             App app = appService.getById(appId);
             ThrowUtils.throwIf(app == null, ErrorCode.PARAMS_ERROR, "应用不存在");
+            ThrowUtils.throwIf(app.getReviewStatus() != 1, ErrorCode.PARAMS_ERROR, "应用未审核通过");
         }
     }
 

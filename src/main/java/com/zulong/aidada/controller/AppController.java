@@ -173,7 +173,9 @@ public class AppController {
         long size = appQueryRequest.getPageSize();
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
-        // 查询数据库
+        //限制只能看已过审的应用 是否要加上看到自己发布的待审的的应用，后面再说，有时间可以补上
+        appQueryRequest.setReviewStatus(ReviewStatusEnum.PASS.getValue());
+        //查询数据库
         Page<App> appPage = appService.page(new Page<>(current, size),
                 appService.getQueryWrapper(appQueryRequest));
         // 获取封装类
